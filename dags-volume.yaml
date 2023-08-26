@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airflow-dags
+spec:
+  replicas: 1  # Defina o número de réplicas desejado
+  selector:
+    matchLabels:
+      app: airflow-dags
+  template:
+    metadata:
+      labels:
+        app: airflow-dags
+    spec:
+      containers:
+        - name: airflow-container
+          image: airflow-custom:1.0.0
+          volumeMounts:
+            - name: dags-volume
+              mountPath: /usr/local/airflow/dags  # Caminho das dags dentro do contêiner
+      volumes:
+        - name: dags-volume
+          emptyDir: {}
